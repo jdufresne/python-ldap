@@ -291,17 +291,17 @@ class SlapdObject(object):
         if not os.path.exists(self.testrundir):
             return
         self._log.debug('clean-up %s', self.testrundir)
-        for dirpath, dirnames, filenames in os.walk(
-                self.testrundir,
-                topdown=False
-            ):
-            for filename in filenames:
-                self._log.debug('remove %s', os.path.join(dirpath, filename))
-                os.remove(os.path.join(dirpath, filename))
-            for dirname in dirnames:
-                self._log.debug('rmdir %s', os.path.join(dirpath, dirname))
-                os.rmdir(os.path.join(dirpath, dirname))
-        os.rmdir(self.testrundir)
+        # for dirpath, dirnames, filenames in os.walk(
+        #         self.testrundir,
+        #         topdown=False
+        #     ):
+        #     for filename in filenames:
+        #         self._log.debug('remove %s', os.path.join(dirpath, filename))
+        #         os.remove(os.path.join(dirpath, filename))
+        #     for dirname in dirnames:
+        #         self._log.debug('rmdir %s', os.path.join(dirpath, dirname))
+        #         os.rmdir(os.path.join(dirpath, dirname))
+        # os.rmdir(self.testrundir)
         self._log.info('cleaned-up %s', self.testrundir)
 
     def _avail_tcp_port(self):
@@ -364,7 +364,7 @@ class SlapdObject(object):
         """
         for fname in file_names:
             ln_source = os.path.join(source_dir, fname)
-            ln_target = os.path.join(self._schema_prefix, fname)
+            ln_target = os.path.join(self._schema_prefix, os.path.basename(fname))
             self._log.debug('Create symlink %s -> %s', ln_source, ln_target)
             os.symlink(ln_source, ln_target)
 
