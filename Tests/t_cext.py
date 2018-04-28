@@ -255,9 +255,9 @@ class TestLdapCExtension(SlapdTestCase):
         self.assertEqual(msgid, m)
         self.assertEqual(ctrls, [])
         root_dse = pmsg[0][1]
-        self.assertTrue('objectClass' in root_dse)
-        self.assertTrue(b'OpenLDAProotDSE' in root_dse['objectClass'])
-        self.assertTrue('namingContexts' in root_dse)
+        self.assertIn('objectClass', root_dse)
+        self.assertIn(b'OpenLDAProotDSE', root_dse['objectClass'])
+        self.assertIn('namingContexts', root_dse)
         self.assertEqual(root_dse['namingContexts'], [self.server.suffix.encode('ascii')])
 
     def test_unbind(self):
@@ -286,8 +286,8 @@ class TestLdapCExtension(SlapdTestCase):
         self.assertEqual(len(pmsg[0]), 2)
         self.assertEqual(pmsg[0][0], self.server.suffix)
         self.assertEqual(pmsg[0][0], self.server.suffix)
-        self.assertTrue(b'dcObject' in pmsg[0][1]['objectClass'])
-        self.assertTrue(b'organization' in pmsg[0][1]['objectClass'])
+        self.assertIn(b'dcObject', pmsg[0][1]['objectClass'])
+        self.assertIn(b'organization', pmsg[0][1]['objectClass'])
         self.assertEqual(msgid, m)
         self.assertEqual(ctrls, [])
 
