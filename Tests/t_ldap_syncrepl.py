@@ -320,7 +320,7 @@ class BaseSyncreplTests(object):
             all=1,
             timeout=None
         )
-        self.assertFalse(poll_result)
+        self.assertIs(poll_result, False)
         self.assertEqual(self.tester.dn_attrs, LDAP_ENTRIES)
 
     def test_refreshAndPersist_poll_only(self):
@@ -338,7 +338,7 @@ class BaseSyncreplTests(object):
                 all=0,
                 timeout=None
             )
-            self.assertTrue(poll_result)
+            self.assertIs(poll_result, True)
 
         self.assertEqual(self.tester.dn_attrs, LDAP_ENTRIES)
 
@@ -357,7 +357,7 @@ class BaseSyncreplTests(object):
                 all=0,
                 timeout=None
             )
-            self.assertTrue(poll_result)
+            self.assertIs(poll_result, True)
 
         # Again, server data should not have changed.
         self.assertEqual(self.tester.dn_attrs, LDAP_ENTRIES)
@@ -386,7 +386,7 @@ class BaseSyncreplTests(object):
                 all=0,
                 timeout=None
             )
-            self.assertTrue(poll_result)
+            self.assertIs(poll_result, True)
 
         # Again, server data should not have changed.
         self.assertEqual(self.tester.dn_attrs, LDAP_ENTRIES)

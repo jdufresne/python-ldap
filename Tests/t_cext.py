@@ -218,13 +218,13 @@ class TestLdapCExtension(SlapdTestCase):
             self.skipTest("No CI_DISABLED env var")
         disabled = set(disabled.split(':'))
         if 'TLS' in disabled:
-            self.assertFalse(_ldap.TLS_AVAIL)
+            self.assertIs(_ldap.TLS_AVAIL, False)
         else:
-            self.assertFalse(_ldap.TLS_AVAIL)
+            self.assertIs(_ldap.TLS_AVAIL, False)
         if 'SASL' in disabled:
-            self.assertFalse(_ldap.SASL_AVAIL)
+            self.assertIs(_ldap.SASL_AVAIL, False)
         else:
-            self.assertFalse(_ldap.SASL_AVAIL)
+            self.assertIs(_ldap.SASL_AVAIL, False)
 
     def test_simple_bind(self):
         l = self._open_conn()
@@ -232,9 +232,9 @@ class TestLdapCExtension(SlapdTestCase):
     def test_simple_anonymous_bind(self):
         l = self._open_conn(bind=False)
         m = l.simple_bind("", "")
-        self.assertEqual(type(m), type(0))
+        self.assertIsInstance(m, int)
         result, pmsg, msgid, ctrls = l.result4(m, _ldap.MSG_ALL, self.timeout)
-        self.assertTrue(result, _ldap.RES_BIND)
+        self.assertEqual(result, _ldap.RES_BIND)
         self.assertEqual(msgid, m)
         self.assertEqual(pmsg, [])
         self.assertEqual(ctrls, [])
@@ -255,9 +255,9 @@ class TestLdapCExtension(SlapdTestCase):
         self.assertEqual(msgid, m)
         self.assertEqual(ctrls, [])
         root_dse = pmsg[0][1]
-        self.assertTrue('objectClass' in root_dse)
-        self.assertTrue(b'OpenLDAProotDSE' in root_dse['objectClass'])
-        self.assertTrue('namingContexts' in root_dse)
+        self.assertIn('objectClass', root_dse)
+        self.assertIn(b'OpenLDAProotDSE', root_dse['objectClass'])
+        self.assertIn('namingContexts', root_dse)
         self.assertEqual(root_dse['namingContexts'], [self.server.suffix.encode('ascii')])
 
     def test_unbind(self):
@@ -286,8 +286,8 @@ class TestLdapCExtension(SlapdTestCase):
         self.assertEqual(len(pmsg[0]), 2)
         self.assertEqual(pmsg[0][0], self.server.suffix)
         self.assertEqual(pmsg[0][0], self.server.suffix)
-        self.assertTrue(b'dcObject' in pmsg[0][1]['objectClass'])
-        self.assertTrue(b'organization' in pmsg[0][1]['objectClass'])
+        self.assertIn(b'dcObject', pmsg[0][1]['objectClass'])
+        self.assertIn(b'organization', pmsg[0][1]['objectClass'])
         self.assertEqual(msgid, m)
         self.assertEqual(ctrls, [])
 
@@ -317,7 +317,7 @@ class TestLdapCExtension(SlapdTestCase):
         result, pmsg, msgid, ctrls = l.result4(m, _ldap.MSG_ALL, self.timeout)
         # Expect to get some objects
         self.assertEqual(result, _ldap.RES_SEARCH_RESULT)
-        self.assertTrue(len(pmsg) >= 2)
+        self.assertGreaterEqual(len(pmsg), 2)
         self.assertEqual(msgid, m)
         self.assertEqual(ctrls, [])
 
@@ -474,7 +474,7 @@ class TestLdapCExtension(SlapdTestCase):
                 (_ldap.MOD_ADD, 'description', [b'dummy']),
             ]
         )
-        self.assertTrue(isinstance(m, int))
+        self.assertIsInstance(m, int)
         try:
             r = l.result4(m, _ldap.MSG_ALL, self.timeout)
         except _ldap.NO_SUCH_OBJECT:
@@ -629,7 +629,7 @@ class TestLdapCExtension(SlapdTestCase):
         # Anonymous bind
         m = l.simple_bind("", "")
         result, pmsg, msgid, ctrls = l.result4(m, _ldap.MSG_ALL, self.timeout)
-        self.assertTrue(result, _ldap.RES_BIND)
+        self.assertEqual(result, _ldap.RES_BIND)
         # check with Who Am I? extended operation
         r = l.whoami_s()
         self.assertEqual("", r)

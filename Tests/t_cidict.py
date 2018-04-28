@@ -23,7 +23,7 @@ class TestCidict(unittest.TestCase):
         """
         test function is_dn()
         """
-        self.assertEqual(ldap.dn.is_dn('foobar,ou=ae-dir'), False)
+        self.assertIs(ldap.dn.is_dn('foobar,ou=ae-dir'), False)
         data = {
             'AbCDeF':123,
         }
@@ -45,8 +45,8 @@ class TestCidict(unittest.TestCase):
         self.assertEqual("AbCDef" in cix._keys, False)
         self.assertEqual("abcdef" in cix, False)
         self.assertEqual("AbCDef" in cix, False)
-        self.assertEqual(cix.has_key("abcdef"), False)
-        self.assertEqual(cix.has_key("AbCDef"), False)
+        self.assertIs(cix.has_key("abcdef"), False)
+        self.assertIs(cix.has_key("AbCDef"), False)
 
 
 if __name__ == '__main__':

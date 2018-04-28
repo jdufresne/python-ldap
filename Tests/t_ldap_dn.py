@@ -25,14 +25,14 @@ class TestDN(unittest.TestCase):
         """
         test function is_dn()
         """
-        self.assertEqual(ldap.dn.is_dn('foobar,ou=ae-dir'), False)
-        self.assertEqual(ldap.dn.is_dn('-cn=foobar,ou=ae-dir'), False)
-        self.assertEqual(ldap.dn.is_dn(';cn=foobar,ou=ae-dir'), False)
-        self.assertEqual(ldap.dn.is_dn(',cn=foobar,ou=ae-dir'), False)
-        self.assertEqual(ldap.dn.is_dn('cn=foobar,ou=ae-dir,'), False)
-        self.assertEqual(ldap.dn.is_dn('uid=xkcd,cn=foobar,ou=ae-dir'), True)
-        self.assertEqual(ldap.dn.is_dn('cn=äöüÄÖÜß,o=äöüÄÖÜß'), True)
-        self.assertEqual(
+        self.assertIs(ldap.dn.is_dn('foobar,ou=ae-dir'), False)
+        self.assertIs(ldap.dn.is_dn('-cn=foobar,ou=ae-dir'), False)
+        self.assertIs(ldap.dn.is_dn(';cn=foobar,ou=ae-dir'), False)
+        self.assertIs(ldap.dn.is_dn(',cn=foobar,ou=ae-dir'), False)
+        self.assertIs(ldap.dn.is_dn('cn=foobar,ou=ae-dir,'), False)
+        self.assertIs(ldap.dn.is_dn('uid=xkcd,cn=foobar,ou=ae-dir'), True)
+        self.assertIs(ldap.dn.is_dn('cn=äöüÄÖÜß,o=äöüÄÖÜß'), True)
+        self.assertIs(
             ldap.dn.is_dn(
                 r'cn=\c3\a4\c3\b6\c3\bc\c3\84\c3\96\c3\9c\c3\9f,o=\c3\a4\c3\b6\c3\bc\c3\84\c3\96\c3\9c\c3\9f'
             ),
